@@ -1,2 +1,5 @@
 .secret
 node_modules
+.env
+.parcel-cache
+dist

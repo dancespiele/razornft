@@ -17,21 +17,12 @@ contract Razor is ERC1155, AccessControl, Ownable {
 
     mapping (uint256 => string) private _uris;
 
-    constructor() ERC1155("https://localhost:3000/item/{id}.json") {
+    constructor() ERC1155("https://bafybeiaazwp4e4fgukdlkfkmxl33fj33poqoofyvwwzaka3esrzdps2yr4.ipfs.dweb.link/0.json") {
         _mint(msg.sender, RAZOR, 1000, "");
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(ERC1155, AccessControl) returns (bool) {
         return super.supportsInterface(interfaceId);
-    }
-
-    function uri(uint256 tokenId) override public view returns (string memory) {
-        return(_uris[tokenId]);
-    }
-    
-    function setTokenUri(uint256 tokenId, string memory url) public onlyOwner {
-        require(bytes(_uris[tokenId]).length == 0, "Cannot set url twice"); 
-        _uris[tokenId] = url; 
     }
 
     function NFTfaucet(address user) public {
@@ -52,7 +43,7 @@ contract Razor is ERC1155, AccessControl, Ownable {
         }
 
         uint256 rewards = balance.div(1000);
-        this.safeTransferFrom(msg.sender, nftHolder, RZR, rewards, "");
+        _mint(nftHolder, RZR, rewards, "");
 
         if(!this.hasRole(GROUP_ROLE, nftHolder)) {
             _setupRole(GROUP_ROLE, nftHolder);
