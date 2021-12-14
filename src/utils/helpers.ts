@@ -16,3 +16,7 @@ export const razorABI: AbiItem[] = [
 
 const web3 = new Web3(new Web3.providers.HttpProvider(process.env.RPC_URL));
 export const methods = new web3.eth.Contract(razorABI, RAZOR_ADDRESS).methods;
+
+export const setAddressWalletString = (address: string) => {
+  return `${address.slice(0, 4)}...${address.slice(-3, address.length)}`
+}
