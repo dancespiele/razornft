@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { routes } from '../routes';
-import { Menu } from 'react-bulma-components';
+import { Navbar } from 'react-bulma-components';
 
 const MainMenu = () => {
     const menus = Array<boolean>().fill(false, 0, routes.length);
@@ -15,13 +15,17 @@ const MainMenu = () => {
     }
 
     return (
-        <Menu>
-        {routes.map((route, index) => (
-            <Link key={route.name} to={route.path} onClick={() => onSetActiveMenu(index)}>
-                <Menu.List.Item active={activeMenus[index]}>{route.name}</Menu.List.Item>
-            </Link>
-        ))}
-        </Menu>
+        <Navbar>
+            <Navbar.Menu>
+                {routes.map((route, index) => (
+                    <Link key={route.name} to={route.path}>
+                        <Navbar.Item active={activeMenus[index]} onClick={() => onSetActiveMenu(index)}>
+                            {route.name}
+                        </Navbar.Item>
+                    </Link>
+                ))}
+            </Navbar.Menu>
+        </Navbar>
     )
 }
 

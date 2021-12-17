@@ -13,7 +13,7 @@ const initialState = {
 
 export const tokensReducer = (state = initialState, action: DispatchData<BalancePayload>) => {
   switch (action.type) {
-    case Types.GET_BALANCE: {
+    case Types.TOKENS_GET_BALANCE: {
       return {
         ...state,
         balances: action.payload,

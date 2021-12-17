@@ -1,3 +1,3 @@
-export const GET_BALANCE = "GET_BALANCE";
+export const TOKENS_GET_BALANCE = "TOKENS_GET_BALANCE";
 export const TOKENS_LOADING = "TOKENS_LOADING";
 export const TOKENS_ERROR = "TOKENS_ERROR";

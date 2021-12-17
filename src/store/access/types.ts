@@ -1,0 +1,3 @@
+export const ACCESS_HAS_ROLE = "ACCESS_HAS_ROLE";
+export const ACCESS_LOADING = "ACCESS_LOADING";
+export const ACCESS_ERROR = "ACCESS_ERROR";

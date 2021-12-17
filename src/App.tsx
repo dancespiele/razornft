@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { tokensReducer } from './store/tokens';
+import { faucetReducer } from './store/faucet';
+import { accessReducer } from './store/access';
 import { Web3ReactProvider } from '@web3-react/core';
-import { BrowserRouter, Route} from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { routes } from './routes';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import { Level } from 'react-bulma-components';
+import { Columns, Level } from 'react-bulma-components';
 import WalletConnect from './components/Wallet';
 import MainMenu from './components/MainMenu';
 
@@ -29,6 +31,8 @@ const composeEnhancers = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'];
 
 const reducers = combineReducers({
     tokens: tokensReducer,
+    faucet: faucetReducer,
+    access: accessReducer,
 });
 
 const store = createStore(
@@ -46,25 +50,29 @@ export const getLibrary = (provider) => {
 export const App = () => (
     <Provider store={store}>
         <Web3ReactProvider getLibrary={getLibrary}>
-            <Level>
-                <Level.Side justifyContent="flex-start">
-                    <Level.Item>
-                        <MainMenu/>
-                    </Level.Item>
-                </Level.Side>
-                <Level.Side justifyContent="flex-end">
-                    <Level.Item>
-                        <BrowserRouter>
-                            {routes.map(route => (
-                                <Route path={route.path} element={route.component}/>
-                            ))}
-                        </BrowserRouter>
-                    </Level.Item>
-                    <Level.Item>
-                        <WalletConnect/>
-                    </Level.Item>
-                </Level.Side>
-            </Level>
+            <BrowserRouter>
+            <Columns>
+                <Columns.Column className="is-8">
+                    <MainMenu/>
+                </Columns.Column>
+                <Columns.Column className="is-4">
+                    <Level alignContent="flex-end">
+                        <Level.Item>
+                            <WalletConnect/>
+                        </Level.Item>
+                    </Level>
+                </Columns.Column>
+            </Columns>
+            <Columns>
+                <Columns.Column className="is-full">
+                    <Routes>
+                        {routes.map(route => (
+                            <Route key={route.name} path={route.path} element={route.component as ReactElement}/>
+                        ))}
+                    </Routes>
+                </Columns.Column>
+            </Columns>
+            </BrowserRouter>
         </Web3ReactProvider>
     </Provider>
 );
