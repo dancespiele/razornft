@@ -25,32 +25,46 @@ contract Razor is ERC1155, AccessControl {
         return super.supportsInterface(interfaceId);
     }
 
-    function faucetNFT(address user) public {
-        this.safeTransferFrom(contractOwner, user, RAZOR, 1, "");
-        previusBlock[msg.sender] = 0;
+    function calcReward(address account) public view returns(uint256) {
+        uint256 balance = this.balanceOf(account, RAZOR).mul(10 ** 18);
 
-        if(!this.hasRole(USER_ROLE, user)) {
-            _setupRole(USER_ROLE, user);
-        }
-    }
-
-    function calcReward() public view returns(uint256) {
-        uint256 balance = this.balanceOf(msg.sender, RAZOR);
-        uint256 blockDiff = block.number.sub(previusBlock[msg.sender]);
-        if(balance <= 0 || blockDiff <=0) {
+        if(balance < 1) {
             return 0;
         }
 
-        return (balance.div(1000)).add(blockDiff);
+        uint256 blockDiff = block.number.sub(previusBlock[account]);
+
+        return (balance.div(1000)).mul(blockDiff);
+    }
+
+    function faucetNFT() public {
+        if(this.balanceOf(contractOwner, RAZOR) == 0) {
+            return;
+        }
+        uint256 balanceSender = this.balanceOf(msg.sender, RAZOR);
+
+        _safeTransferFrom(contractOwner, msg.sender, RAZOR, 1, "");
+        if(balanceSender == 0) {
+            previusBlock[msg.sender] = block.number;
+        }
+
+        if(!this.hasRole(USER_ROLE, msg.sender)) {
+            _grantRole(USER_ROLE, msg.sender);
+        }
     }
 
     function mintRZR() public {
-        uint256 rewards = calcReward();
+        uint256 rewards = calcReward(msg.sender);
+
+        if(rewards == 0) {
+            return;
+        }
+
         _mint(msg.sender, RZR, rewards, "");
         previusBlock[msg.sender] = block.number;
 
         if(!this.hasRole(GROUP_ROLE, msg.sender)) {
-            _setupRole(GROUP_ROLE, msg.sender);
+            _grantRole(GROUP_ROLE, msg.sender);
         }
     }
 }

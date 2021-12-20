@@ -3,7 +3,7 @@ import { DispatchData } from '../../utils/utils.interfaces';
 
 const initialState = {
   RAZORLeft: 0,
-  rewards: 0,
+  rewards: "0",
   error: null,
   loading: false,
 };
@@ -13,7 +13,7 @@ export const faucetReducer = (state = initialState, action: DispatchData<unknown
         case Types.FAUCET_CALC_REWARD: {
             return {
                 ...state,
-                rewards: action.payload as {rewards: number},
+                rewards: action.payload as string,
                 error: null,
                 loading: false,
             }

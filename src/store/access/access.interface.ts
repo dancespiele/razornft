@@ -1,5 +1,6 @@
 export interface AccessState {
-    hasRole: boolean,
+    userRole: boolean,
+    groupRole: boolean,
     error: Error,
     loading: boolean,
 }

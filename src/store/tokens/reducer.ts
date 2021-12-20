@@ -3,23 +3,56 @@ import { DispatchData } from '../../utils/utils.interfaces';
 import { BalancePayload } from './tokens.interface';
 
 const initialState = {
-  balances: {
-    balanceRAZOR: 0,
-    balanceRZR: 0,
-  },
+  walletAddress: '',
+  approved: false,
+  balances: [] as BalancePayload[],
   error: null,
   loading: false,
 };
 
-export const tokensReducer = (state = initialState, action: DispatchData<BalancePayload>) => {
+export const tokensReducer = (state = initialState, action: DispatchData<unknown>) => {
   switch (action.type) {
     case Types.TOKENS_GET_BALANCE: {
       return {
         ...state,
-        balances: action.payload,
+        balances: [...state.balances.filter(balance => balance.address !== (action.payload as BalancePayload).address), action.payload],
         error: null,
         loading: false,
       };
+    }
+
+    case Types.TOKENS_GET_WALLET_ADDRESS: {
+        return {
+          ...state,
+          walletAddress: action.payload as string,
+          error: null,
+          loading: false,
+        }
+    }
+
+    case Types.TOKENS_SEND_TRANSFER: {
+      return {
+        ...state,
+        error: null,
+        loading: false,
+      }
+    }
+
+    case Types.TOKENS_IS_APPROVED: {
+      return {
+        ...state,
+        approved: action.payload as boolean,
+        error: null,
+        loading: false,
+      }
+    }
+
+    case Types.TOKENS_APPROVE: {
+      return {
+        ...state,
+        error: null,
+        loading: false,
+      }
     }
 
     case Types.TOKENS_LOADING: {

@@ -2,17 +2,27 @@ import * as Types from './types';
 import { DispatchData } from '../../utils/utils.interfaces';
 
 const initialState = {
-    hasRole: false,
+    userRole: false,
+    groupRole: false,
     error: null,
     loading: false,
 };
 
-export const accessReducer = (state = initialState, action: DispatchData<unknown>) => {
+export const accessReducer = (state = initialState, action: DispatchData<boolean>) => {
     switch (action.type) {
-        case Types.ACCESS_HAS_ROLE: {
+        case Types.ACCESS_HAS_USER_ROLE: {
             return {
                 ...state,
-                hasRole: action.payload as {hasAccess: boolean},
+                userRole: action.payload,
+                error: null,
+                loading: false,
+            };
+        }
+    
+        case Types.ACCESS_HAS_GROUP_ROLE: {
+            return {
+                ...state,
+                groupRole: action.payload,
                 error: null,
                 loading: false,
             };
@@ -21,6 +31,7 @@ export const accessReducer = (state = initialState, action: DispatchData<unknown
         case Types.ACCESS_LOADING: {
             return {
                 ...state,
+                groupRole: action.payload,
                 error: null,
                 loading: true,
             };

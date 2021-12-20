@@ -1,4 +1,4 @@
-import { methods } from '../../utils/helpers';
+import { methods, web3 } from '../../utils/helpers';
 import { Methods } from '../../utils/utils.interfaces';
 import * as Types from './types';
 import { Dispatch } from 'redux';
@@ -7,17 +7,15 @@ const faucetLoading = () => ({
     type: Types.FAUCET_LOADING,
 });
 
-export const calcReward = () => async (dispatch: Dispatch) => {
+export const calcReward = (address: string) => async (dispatch: Dispatch) => {
     dispatch(faucetLoading());
 
     try {
-        const rewards = await (methods as Methods<number>).calcReward().call();
+        const rewards = await (methods as Methods<number>).calcReward(address).call();
 
         dispatch({
             type: Types.FAUCET_CALC_REWARD,
-            payload: {
-                rewards,
-            },
+            payload: web3.utils.fromWei(rewards.toString(), 'ether'),
             error: null,
         });
     } catch(error) {
@@ -30,11 +28,11 @@ export const calcReward = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const getFNT = () => async (dispatch: Dispatch) => {
+export const getFNT = (address: string) => async (dispatch: Dispatch) => {
     dispatch(faucetLoading());
 
     try {
-        await (methods as Methods<void>).faucetNFT().call();
+        await (methods as Methods<void>).faucetNFT().send({ from: address});
 
         dispatch({
             type: Types.FAUCET_GET_NFT,
@@ -50,11 +48,11 @@ export const getFNT = () => async (dispatch: Dispatch) => {
     }
 }
 
-export const mintNFT = () => async (dispatch: Dispatch) => {
+export const claimRZR = (address: string) => async (dispatch: Dispatch) => {
     dispatch(faucetLoading());
 
     try {
-        await (methods as Methods<void>).mintRZR().call();
+        await (methods as Methods<void>).mintRZR().send({ from: address});
 
         dispatch({
             type: Types.FAUCET_GET_NFT,

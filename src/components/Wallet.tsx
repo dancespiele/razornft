@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -34,29 +34,38 @@ const WalletConnect = () => {
 
     useEffect(() => {
         if (isConnected || address) {
-            dispatch(getBalance(address || wallet.account));
-
             if(!address) {
                 setLocalStorage(wallet.account);
                 setAddress(wallet.account);
+            } else if (wallet.account && wallet.account !== address){
+                onWalletDisconnect();
+                setLocalStorage(wallet.account);
+                setAddress(wallet.account);
             } else {
-                setIsConnected(true);
+                onWalletConnect();
             }
         }
     }, [isConnected])
 
+    useEffect(() => {
+        if (address) {
+            dispatch(getBalance(address));
+        }
+    }, [tokens.balances]);
+
     return (
         <>
-            {!isConnected ? 
-                    <Button color="" onClick={onWalletConnect}>Connect</Button>: 
-                    <>
-                            <Form.Input type="text" color="info" value={`RAZOR: ${tokens.balances.balanceRAZOR} RZR: ${tokens.balances.balanceRZR}`} disabled/>
-                            <Form.Input type="text" color="primary" value={ setAddressWalletString(address)} disabled/>
-                            <Button color="danger" onClick={onWalletDisconnect}>
-                                Disconnect
-                            </Button>
-                    </>
-            }
+        {!isConnected ? 
+            <Button color="" onClick={onWalletConnect}>Connect</Button>
+            :<>
+                <Form.Input type="text" color="info" value={
+                    `RAZOR: ${tokens.balances?.find(b => b.address === address)?.balanceRAZOR || 0} | RZR: ${tokens.balances?.find(b => b.address === address)?.balanceRZR || '0'}`} disabled/>
+                <Form.Input type="text" color="primary" value={ address ? setAddressWalletString(address): ''} disabled/>
+                <Button color="danger" onClick={onWalletDisconnect}>
+                    Disconnect
+                </Button>
+            </>
+        }
         </>
     );
 };

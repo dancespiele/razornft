@@ -1,5 +1,5 @@
 export interface FaucetState {
-    rewards: number;
+    rewards: string;
     error: Error;
     loading: boolean;
 }
