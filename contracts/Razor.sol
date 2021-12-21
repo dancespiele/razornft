@@ -38,9 +38,8 @@ contract Razor is ERC1155, AccessControl {
     }
 
     function faucetNFT() public {
-        if(this.balanceOf(contractOwner, RAZOR) == 0) {
-            return;
-        }
+        require(this.balanceOf(contractOwner, RAZOR) >= 0, "No NFT left");
+
         uint256 balanceSender = this.balanceOf(msg.sender, RAZOR);
 
         _safeTransferFrom(contractOwner, msg.sender, RAZOR, 1, "");
@@ -56,9 +55,7 @@ contract Razor is ERC1155, AccessControl {
     function mintRZR() public {
         uint256 rewards = calcReward(msg.sender);
 
-        if(rewards == 0) {
-            return;
-        }
+        require(rewards > 0, "Nothing to claim");
 
         _mint(msg.sender, RZR, rewards, "");
         previusBlock[msg.sender] = block.number;

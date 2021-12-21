@@ -17,6 +17,9 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+require("ts-node").register({
+  files: true,
+});
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
@@ -43,8 +46,8 @@ module.exports = {
     //
     development: {
       host: "127.0.0.1", // Localhost (default: none)
-      port: 7545, // Standard BSC port (default: none)
-      network_id: "1337", // Any network (default: none)
+      port: 8545, // Standard BSC port (default: none)
+      network_id: 1337, // Any network (default: none)
     },
     testnet: {
       provider: () =>
