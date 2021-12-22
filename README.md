@@ -40,4 +40,4 @@ CONTRACT_ADDRESS=0x5861a03329CcD45A6eF762bc84DD49c0e7cBA44B // change the contra
 
 ## License
 
-Razornft is [MIT](LICENSE.md) licensed if are not done before
+Razornft is [MIT](LICENSE.md) licensed
