@@ -23,9 +23,6 @@ require("ts-node").register({
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 
-const fs = require("fs");
-const mnemonic = fs.readFileSync(".secret").toString().trim();
-
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -48,17 +45,6 @@ module.exports = {
       host: "127.0.0.1", // Localhost (default: none)
       port: 7545, // Standard BSC port (default: none)
       network_id: 1337, // Any network (default: none)
-    },
-    testnet: {
-      provider: () =>
-        new HDWalletProvider(
-          mnemonic,
-          `https://data-seed-prebsc-1-s1.binance.org:8545`
-        ),
-      network_id: 97,
-      confirmations: 10,
-      timeoutBlocks: 200,
-      skipDryRun: true,
     },
     // Another network with more advanced options...
     // advanced: {
