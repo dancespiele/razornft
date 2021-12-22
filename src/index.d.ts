@@ -1,4 +1,4 @@
-import { Ethereumish } from './utils.interfaces';
+import { Ethereumish } from './utils/utils.interfaces';
 import Web3 from 'web3'
 
 declare global {

@@ -1,13 +1,15 @@
 {
     "compilerOptions": {
-        "lib": ["ES2021"],
+        "lib": ["ES7", "DOM"],
         "jsx": "react",
+        "baseUrl": "src",
         "allowSyntheticDefaultImports": true,
-        "module": "CommonJS",
-        "target": "ES2021",
-        "esModuleInterop": true,
-        "types": ["@types/jest"],
-        "typeRoots": ["./node_modules/@types", "./types"]
+        "allowJs": true,
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "target": "es6",
+        "esModuleInterop": true
     },
-    "exclude": ["node_modules", "build", "cache", "artifacts"]
+    "exclude": ["node_modules", "build", "cache", "artifacts"],
+    "include": ["src/**/*.ts", "/src/**/*.d.ts"]
 }

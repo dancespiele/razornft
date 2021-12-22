@@ -1,6 +1,6 @@
 import { methods, RAZOR_ADDRESS, web3 } from '../../utils/helpers';
 import { Methods } from '../../utils/utils.interfaces';
-import * as Types from './types'
+import * as Types from './types';
 import { Dispatch } from 'redux';
 
 const tokenLoading = () => ({

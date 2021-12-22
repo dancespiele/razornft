@@ -3,7 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useDispatch } from 'react-redux';
 import {Container, Content, Heading, Button, Columns} from 'react-bulma-components';
 import { useTokens, getBalance, TokensState, isApproved, approveToken } from "../store/tokens";
-import { getFNT, calcReward, claimRZR, useFaucet, FaucetState } from "../store/faucet";
+import { getNFT, calcReward, claimRZR, useFaucet, FaucetState } from "../store/faucet";
 import { OWNER_ADDRESS } from '../utils/helpers';
 
 const Faucet = () => {
@@ -14,7 +14,7 @@ const Faucet = () => {
     const wallet = useWeb3React();
     
     const onFaucet = async () => {
-        await dispatch(getFNT(wallet.account));
+        await dispatch(getNFT(wallet.account));
         await dispatch(getBalance(OWNER_ADDRESS));
         await dispatch(calcReward(wallet.account));
     }

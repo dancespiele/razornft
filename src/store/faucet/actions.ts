@@ -28,7 +28,7 @@ export const calcReward = (address: string) => async (dispatch: Dispatch) => {
     }
 }
 
-export const getFNT = (address: string) => async (dispatch: Dispatch) => {
+export const getNFT = (address: string) => async (dispatch: Dispatch) => {
     dispatch(faucetLoading());
 
     try {
@@ -55,7 +55,7 @@ export const claimRZR = (address: string) => async (dispatch: Dispatch) => {
         await (methods as Methods<void>).mintRZR().send({ from: address});
 
         dispatch({
-            type: Types.FAUCET_GET_NFT,
+            type: Types.FAUCET_MINT_RZR,
             error: null,
         })
     } catch (error) {
